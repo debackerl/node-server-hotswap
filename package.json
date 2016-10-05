@@ -1,0 +1,11 @@
+{
+	"version": "0.9.0",
+	"bin": {
+		"server-hotswap": "./server-hotswap.js"
+	},
+	"dependencies": {
+		"command-line-args": "^3.0.1",
+		"userid": "^0.2.0"
+	},
+	"license": "MIT"
+}
