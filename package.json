@@ -1,4 +1,5 @@
 {
+	"name": "server-hotswap",
 	"version": "0.9.0",
 	"bin": {
 		"server-hotswap": "./server-hotswap.js"
