@@ -60,8 +60,12 @@ process.on('SIGHUP', () => {
 });
 
 process.on('SIGTERM', () => {
-	if(child)
+	if(child) {
+		restarting = true;
 		child.kill('SIGTERM');
+	} else {
+		process.exit();
+	}
 });
 
 server.listen(port, startChild);
