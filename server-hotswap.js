@@ -52,9 +52,16 @@ function startChild() {
 }
 
 process.on('SIGHUP', () => {
-	restarting = true;
-	console.log('Child process restart requested.');
-	child.kill('SIGINT');
+	if(child) {
+		restarting = true;
+		console.log('Child process restart requested.');
+		child.kill('SIGINT');
+	}
+});
+
+process.on('SIGTERM', () => {
+	if(child)
+		child.kill('SIGTERM');
 });
 
 server.listen(port, startChild);
