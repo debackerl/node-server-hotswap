@@ -32,9 +32,9 @@ process.on('message', (msg, server) => {
 module.exports = function(callback, options) {
 	state.options = options || {};
 	
-	if(options.port) {
+	if(state.options.port) {
 		var server = net.createServer({allowHalfOpen: true});
-		server.listen(options.port, () => {callback(server);});
+		server.listen(state.options.port, () => {callback(server);});
 	} else {
 		if(state.server)
 			callback(state.server);

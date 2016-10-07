@@ -1,6 +1,6 @@
 {
   "name": "server-hotswap",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "bin": {
     "server-hotswap": "./server-hotswap.js"
   },
