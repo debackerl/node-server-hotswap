@@ -61,7 +61,7 @@ process.on('SIGHUP', () => {
 
 process.on('SIGTERM', () => {
 	if(child) {
-		restarting = true;
+		restarting = false;
 		child.kill('SIGTERM');
 	} else {
 		process.exit();

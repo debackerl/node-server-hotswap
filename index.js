@@ -1,5 +1,8 @@
 'use strict';
 
+const net = require('net');
+const process = require('process');
+
 var state = {};
 
 process.on('SIGINT', () => {
@@ -29,8 +32,13 @@ process.on('message', (msg, server) => {
 module.exports = function(callback, options) {
 	state.options = options || {};
 	
-	if(state.server)
-		callback(state.server);
-	else
-		state.callback = callback;
+	if(options.port) {
+		var server = net.createServer({allowHalfOpen: true});
+		server.listen(options.port, () => {callback(server);});
+	} else {
+		if(state.server)
+			callback(state.server);
+		else
+			state.callback = callback;
+	}
 };
