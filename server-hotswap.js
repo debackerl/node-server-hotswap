@@ -3,7 +3,6 @@
 'use strict';
 
 const commandLineArgs = require('command-line-args');
-const userid = require('userid');
 
 const net = require('net');
 const process = require('process');
@@ -11,8 +10,8 @@ const childProcess = require('child_process');
 
 const optionDefinitions = [
 	{ name: 'port', alias: 'p', type: Number, defaultValue: 8080 },
-	{ name: 'uid', type: String, group: 'child' },
-	{ name: 'gid', type: String, group: 'child' },
+	{ name: 'uid', type: String },
+	{ name: 'gid', type: String },
 	{ name: 'cwd', type: String, group: 'child' },
 	{ name: 'module', type: String, multiple: true, defaultOption: true }
 ];
@@ -21,12 +20,6 @@ const options = commandLineArgs(optionDefinitions);
 const mod = options._all.module[0];
 const args = options._all.module.slice(1);
 const port = options._all.port;
-
-if(options.child.uid && !Number.isInteger(options.child.uid))
-	options.child.uid = userid.uid(options.child.uid);
-
-if(options.child.gid && !Number.isInteger(options.child.gid))
-	options.child.gid = userid.gid(options.child.gid);
 
 let child;
 let restarting = false;
@@ -68,4 +61,8 @@ process.on('SIGTERM', () => {
 	}
 });
 
-server.listen(port, startChild);
+server.listen(port, () => {
+	if(options._all.gid) process.setgid(options._all.gid);
+	if(options._all.uid) process.setuid(options._all.uid); 
+	startChild();
+});
